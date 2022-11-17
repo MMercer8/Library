@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Library</title>
+</head>
+<body>
+    <div class="header">
+        <div> 
+            <img src="books.png" alt="books" style="height: 75px;">
+            <h1>Library</h1>
+        </div>
+        <div></div>
+        <div id="libraryInfo">
+            <h5>Total Books: <span id="bookCount">0</span></h5>
+            <h5>Read: <span id="readCount">0</span></h5>
+            <h5>Not Read: <span id="unreadCount">0</span></h5>
+        </div>
+    </div>
+    <div id="book-grid">
+        <div class="bookItem">
+            <p class="cardInfo">Title: Moby Dick</p>
+            <p class="cardInfo">Author: damn</p>
+            <p class="cardInfo">Pages: 500</p>
+            <div class="test">
+                <p>Have Read?</p>
+                <input type="checkbox" name="test" id="test">
+            </div>
+            
+        </div>
+        <div class="bookItem">book</div>
+
+    </div>
+    <!-- <button>Add Book+</button> -->
+ 
+<div class="modalBox">
+    <div class="modal" id="modal">
+        <h4>Add book info below:</h4>
+        <span class="closeBtn" id="closeBtn">&times;</span>
+        <form action="javascript:addBookToLibrary()" class="formA">
+            <div class="formControls">
+                <label for="bookTitle">Book Title</label>
+                <input type="text" name="bookTitle" id="title-input">
+            </div>
+            <div class="formControls">
+                <label for="bookAuthor">Book Author</label>
+                <input type="text" name="bookAuthor" id="author-input">
+            </div>
+            <div class="formControls">
+                <label for="numPages">Number of Pages</label>
+                <input type="text" name="numPages" id="pages-input">
+            </div>
+            <div class="formControls">
+                <label for="hasRead">Have You Read?</label>
+                <input type="checkbox" name="haveRead" id="read-input">
+            </div>
+            <button type="submit">Add Book</button>
+        </form>
+    </div>
+</div>
+    
+    <button class="addButton" id="addButton">Add Book</button>
+</body>
+</html>
