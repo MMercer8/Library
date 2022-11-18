@@ -8,7 +8,7 @@ const modal = document.getElementsByClassName('modalBox')[0];
 const closeBtn = document.getElementById('closeBtn');
 const addBookButton = document.getElementById('addButton');
 const bookGrid = document.getElementById('book-grid');
-
+let bookCount = 0;
 
 closeBtn.onclick = function() {
 // console.log("should be closing");
@@ -28,37 +28,21 @@ window.onclick = function (event) {
 }
 
 
-function Book(title, author, pages, haveRead) {
+function Book(title, author, pages, haveRead, idNum) {
     this.title = title,
     this.author = author,
     this.pages = pages,
     this.haveRead = haveRead,
-    this.idNum = myLibrary.length,
-    this.delete = function () {
-        myLibrary.splice(this.idNum,1);
-    }
+    this.idNum = idNum;
     
 }
 
-
-// const Book = {
-//     title: title,
-//     author: author,
-//     pages: pages,
-//     haveRead: haveRead,
-//     idNum: myLibrary.length,
-// }
-
-
 function addBookToLibrary() {
-   let book = new Book(title.value, author.value, pages.value, haveRead.checked);
+   let book = new Book(title.value, author.value, pages.value, haveRead.checked, bookCount);
    myLibrary.push(book);
-    addBookToList(title.value, author.value, pages.value, haveRead.checked);
-   //alert('Book Added!');
-   modal.style.display = "none";
-   
-   book.talk();
-
+    // addBookToList(title.value, author.value, pages.value, haveRead.checked);
+    modal.style.display = "none";
+    drawGrid();
 }
 
 //addBookToLibrary("Moby Dick", "Herman Mellville", 952, false);
@@ -72,7 +56,7 @@ function clearInputFields() {
 }
 
 
-function addBookToList(title, author, pages, haveRead) {
+function addBookToList(title, author, pages, haveRead, i) {
     let card = document.createElement("div");
     let cardTitle = document.createElement("p");
     let cardAuthor = document.createElement("p");
@@ -80,7 +64,10 @@ function addBookToList(title, author, pages, haveRead) {
     let readDiv = document.createElement("div");
     let cardHaveRead = document.createElement('input');
     let cardHaveReadText = document.createElement("p");
+    let deleteButton = document.createElement("div");
 
+
+    deleteButton.innerText = "X";
     cardTitle.innerText = `Title: ${title}`;
     cardAuthor.innerText = `Authur: ${author}`;
     cardPages.innerText = `Pages: ${pages}`;
@@ -88,24 +75,45 @@ function addBookToList(title, author, pages, haveRead) {
     cardHaveRead.type = "checkbox";
     cardHaveRead.checked = haveRead;
 
+
+    card.appendChild(deleteButton);
+    card.setAttribute('data-id', i);
+    //console.log(card.getAttribute('data-id') + "data-id"); //===== this
+    deleteButton.setAttribute("id", "bookDelete"); ////=== this
     card.appendChild(cardTitle);
     card.appendChild(cardAuthor);
     card.appendChild(cardPages);
     card.appendChild(readDiv);
     readDiv.appendChild(cardHaveReadText);
     readDiv.appendChild(cardHaveRead);
-    readDiv.classList.add('test');
-    //card.appendChild(cardHaveRead);
+    readDiv.classList.add('read');
     addEListener(cardHaveRead);
-   
+    
 
     //let cardTitle = title;
     card.classList.add("bookItem");
     bookGrid.appendChild(card);
-
+    deleteButton.addEventListener('click', (e) => {
+        
+        deleteBook(e);
+    });
+   
 }
 
+function deleteBook(e) {
 
+    //remove item from DOM
+    e.target.parentElement.remove();
+  
+    // console.log(e.path[2].dataset);
+   //
+   myLibrary.splice(e.idNum, 1);
+   console.log("e.idnum" + e.idNum);
+   //console.log(e.parentElement.getAttribute('data-id'));
+    //myLibrary.splice(e.parentElement.getAttribute('data-id'), -1);
+    
+    drawGrid();
+}
 
 // currently getting the event from the check change to affect the
 // css and more importantly the OBJECT in the myLibrary array
@@ -113,4 +121,22 @@ function addEListener(checkbox) {
     checkbox.addEventListener('change', (e) => {
         console.log(e.target);
     });
+}
+
+
+function drawGrid() {
+    bookGrid.innerHTML = "";
+    bookCount = 0;
+    for (let i = 0; i < myLibrary.length; i++) {
+        // addBookToList(title.value, author.value, pages.value, haveRead.checked);
+        addBookToList(myLibrary[i].title, myLibrary[i].author, myLibrary[i].pages, myLibrary[i].haveRead, i);
+        myLibrary[i].idNum = i;
+        bookCount++;
+    }  
+}
+
+
+function test() {
+
+    console.log(myLibrary[0]);
 }
