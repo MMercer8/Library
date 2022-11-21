@@ -8,7 +8,13 @@ const modal = document.getElementsByClassName('modalBox')[0];
 const closeBtn = document.getElementById('closeBtn');
 const addBookButton = document.getElementById('addButton');
 const bookGrid = document.getElementById('book-grid');
+const bookCountDisplay = document.getElementById('bookCount');
+const readCountDisplay = document.getElementById('readCount');
+const unreadCountDisplay = document.getElementById('unreadCount');
+
 let bookCount = 0;
+let read = 0;
+let unread = 0;
 
 closeBtn.onclick = function() {
 // console.log("should be closing");
@@ -39,20 +45,16 @@ function Book(title, author, pages, haveRead, idNum) {
 
 function addBookToLibrary() {
    let book = new Book(title.value, author.value, pages.value, haveRead.checked, bookCount);
-   myLibrary.push(book);
-    // addBookToList(title.value, author.value, pages.value, haveRead.checked);
+    myLibrary.push(book);
     modal.style.display = "none";
     drawGrid();
 }
-
-//addBookToLibrary("Moby Dick", "Herman Mellville", 952, false);
 
 function clearInputFields() {
     title.value = "";
     author.value = "";
     pages.value = "";
     haveRead.checked = false;
-
 }
 
 
@@ -65,8 +67,7 @@ function addBookToList(title, author, pages, haveRead, i) {
     let cardHaveRead = document.createElement('input');
     let cardHaveReadText = document.createElement("p");
     let deleteButton = document.createElement("div");
-
-
+    
     deleteButton.innerText = "X";
     cardTitle.innerText = `Title: ${title}`;
     cardAuthor.innerText = `Authur: ${author}`;
@@ -78,8 +79,7 @@ function addBookToList(title, author, pages, haveRead, i) {
 
     card.appendChild(deleteButton);
     card.setAttribute('data-id', i);
-    //console.log(card.getAttribute('data-id') + "data-id"); //===== this
-    deleteButton.setAttribute("id", "bookDelete"); ////=== this
+    deleteButton.setAttribute("id", "bookDelete"); 
     card.appendChild(cardTitle);
     card.appendChild(cardAuthor);
     card.appendChild(cardPages);
@@ -87,17 +87,17 @@ function addBookToList(title, author, pages, haveRead, i) {
     readDiv.appendChild(cardHaveReadText);
     readDiv.appendChild(cardHaveRead);
     readDiv.classList.add('read');
-    addEListener(cardHaveRead);
+    //addEListener(cardHaveRead);
     
 
-    //let cardTitle = title;
     card.classList.add("bookItem");
     bookGrid.appendChild(card);
     deleteButton.addEventListener('click', (e) => {
-        
         deleteBook(e);
     });
-   
+   cardHaveRead.addEventListener('change', (e) => {
+        changeReadStatus(e);
+   })
 }
 
 function deleteBook(e) {
@@ -136,7 +136,32 @@ function drawGrid() {
 }
 
 
-function test() {
+function changeReadStatus(e) {
+    if(e.target.checked === true) {
+        //read
+        console.log("yup!");
+        e.target.parentElement.parentElement.style.backgroundColor = 'red';
+        updateBookCounter(true);
 
-    console.log(myLibrary[0]);
+    } else {
+        console.log("nope!");
+        e.target.parentElement.parentElement.style.backgroundColor = 'blue';
+        updateBookCounter(false);
+    }
+    
+}
+
+function test () {
+    for(books in myLibrary) {
+        console.log(books);
+    }
+}
+
+test();
+function updateBookCounter (yesOrNo) {
+    if (yesOrNo) {
+        read++;
+    } else {
+        unread ++;
+    }
 }
