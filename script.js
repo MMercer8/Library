@@ -47,6 +47,8 @@ function addBookToLibrary() {
    let book = new Book(title.value, author.value, pages.value, haveRead.checked, bookCount);
     myLibrary.push(book);
     modal.style.display = "none";
+
+    updateBookCounterNew(haveRead.checked);
     drawGrid();
 }
 
@@ -87,7 +89,6 @@ function addBookToList(title, author, pages, haveRead, i) {
     readDiv.appendChild(cardHaveReadText);
     readDiv.appendChild(cardHaveRead);
     readDiv.classList.add('read');
-    //addEListener(cardHaveRead);
     
 
     card.classList.add("bookItem");
@@ -97,21 +98,13 @@ function addBookToList(title, author, pages, haveRead, i) {
     });
    cardHaveRead.addEventListener('change', (e) => {
         changeReadStatus(e);
-   })
+   });
 }
 
 function deleteBook(e) {
-
     //remove item from DOM
     e.target.parentElement.remove();
-  
-    // console.log(e.path[2].dataset);
-   //
-   myLibrary.splice(e.idNum, 1);
-   console.log("e.idnum" + e.idNum);
-   //console.log(e.parentElement.getAttribute('data-id'));
-    //myLibrary.splice(e.parentElement.getAttribute('data-id'), -1);
-    
+    myLibrary.splice(e.idNum, 1);
     drawGrid();
 }
 
@@ -127,41 +120,77 @@ function addEListener(checkbox) {
 function drawGrid() {
     bookGrid.innerHTML = "";
     bookCount = 0;
+    read = 0;
+    unread = 0;
     for (let i = 0; i < myLibrary.length; i++) {
-        // addBookToList(title.value, author.value, pages.value, haveRead.checked);
         addBookToList(myLibrary[i].title, myLibrary[i].author, myLibrary[i].pages, myLibrary[i].haveRead, i);
         myLibrary[i].idNum = i;
         bookCount++;
+        bookCountDisplay.innerText = bookCount;
+        updateBookCounter(myLibrary[i].haveRead);
     }  
 }
 
 
 function changeReadStatus(e) {
     if(e.target.checked === true) {
-        //read
-        console.log("yup!");
         e.target.parentElement.parentElement.style.backgroundColor = 'red';
         updateBookCounter(true);
-
     } else {
-        console.log("nope!");
         e.target.parentElement.parentElement.style.backgroundColor = 'blue';
         updateBookCounter(false);
     }
     
 }
 
-function test () {
-    for(books in myLibrary) {
-        console.log(books);
+
+function updateBookCounter (yesOrNo) {
+    if (yesOrNo) {
+
+        console.log("true");
+        read++;
+        if(unread > 0) {
+            unread--;
+        }
+        readCountDisplay.innerText = read;
+        unreadCountDisplay.innerText = unread;
+    } else {
+        console.log("false");
+        unread++;
+        if(read > 0) {
+            read--;
+        }
+        readCountDisplay.innerText = read;
+        unreadCountDisplay.innerText = unread;
     }
 }
 
-test();
-function updateBookCounter (yesOrNo) {
+
+function updateBookCounterNew (yesOrNo) {
     if (yesOrNo) {
         read++;
+        // if(unread > 0) {
+        //     unread--;
+        // }
+        readCountDisplay.innerText = read;
+        unreadCountDisplay.innerText = unread;
     } else {
-        unread ++;
+        unread++;
+        // if(read > 0) {
+        //     read--;
+        // }
+        readCountDisplay.innerText = read;
+        unreadCountDisplay.innerText = unread;
     }
 }
+
+// function updateBookCounter (yesOrNo) {
+    
+// for (let i = 0; i < myLibrary.length; i++) {
+//     // addBookToList(myLibrary[i].title, myLibrary[i].author, myLibrary[i].pages, myLibrary[i].haveRead, i);
+//     // myLibrary[i].idNum = i;
+//     bookCount++;
+//     readCountDisplay.innerText = read;
+//     unreadCountDisplay.innerText = unread;
+// }  
+// }
