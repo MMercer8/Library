@@ -6,6 +6,7 @@
 }
 body {
     display: grid;
+    height: 100vh;
 
 }
 
@@ -88,17 +89,29 @@ input:focus {
 
 
 #book-grid {
-    background-color: cadetblue;
-    height: 50vh;
+    background-color: rgb(124, 158, 147);
+    min-height: 500px;
+    height: fit-content;
+    padding: 20px;
     display: grid;
-    grid-auto-flow: column;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    /* grid-auto-flow: column; */
+    grid-template-columns: repeat(4, 1fr);
 }
 
 .addButton {
-    width: 100px;
-    height:35px;
-    justify-self: center;
+    width: 70px;
+    height:70px;
+    justify-self: end;
+    align-self: end;
+    margin: 15px;
+    border-radius: 50px;
+    background-color: rgb(7, 107, 107);
+    color: white;
+    box-shadow: 4px 4px 10px 2px rgba(0, 0, 0, 0.4),
+    1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    outline: 1px solid rgba(255, 255, 255, 0.3);
+
+    /* box-shadow: ; */
 }
 .addButton:hover {
     background-color: #aaa;
@@ -140,6 +153,8 @@ input:focus {
     align-items: center;
     padding-bottom: 10px;
 }
+
+
 /* code to save for later
 
 @keyframes shake {
